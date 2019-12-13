@@ -34,6 +34,7 @@ COPY --from=variant /usr/bin/variant /usr/bin/
 COPY --from=gomplate /gomplate /usr/bin/
 COPY --from=uniconf /uniconf/uniconf /usr/bin/uniconf
 COPY --from=toolbox /usr/bin/go-getter /usr/bin
+COPY --from=toolbox /usr/local/bin/fd /usr/local/bin
 
 RUN set -eux; apk add --no-cache --virtual .composer-rundeps \
   autoconf \
@@ -88,15 +89,6 @@ RUN set -eux; apk add --no-cache --virtual .composer-rundeps \
 
 # Add git-secret package from edge testing
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing git-secret
-
-# Install fd
-ENV FD_VERSION 7.4.0
-RUN curl --fail -sSL -o fd.tar.gz https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-x86_64-unknown-linux-musl.tar.gz \
-    && tar -zxf fd.tar.gz \
-    && cp fd-v${FD_VERSION}-x86_64-unknown-linux-musl/fd /usr/local/bin/ \
-    && rm -f fd.tar.gz \
-    && rm -fR fd-v${FD_VERSION}-x86_64-unknown-linux-musl \
-    && chmod +x /usr/local/bin/fd
 
 # Install ansible.
 RUN pip3 install ansible==2.9.2 awscli botocore boto3 s3cmd python-magic
