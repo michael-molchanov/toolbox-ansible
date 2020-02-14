@@ -96,5 +96,5 @@ RUN pip3 install ansible==2.9.2 awscli botocore boto3 s3cmd python-magic
 # Install ansistrano.
 RUN ansible-galaxy install ansistrano.deploy ansistrano.rollback
 
-RUN mkdir -p /usr/toolbox/deps/toolbox
-COPY --from=toolbox /usr/toolbox/deps/toolbox/* /usr/toolbox/deps/toolbox/
+RUN mkdir -p /toolbox
+COPY --from=toolbox /toolbox/* /toolbox/
